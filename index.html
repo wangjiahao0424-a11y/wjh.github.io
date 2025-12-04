@@ -130,8 +130,8 @@
       border: 1px solid rgba(255, 255, 255, 0.7);
       transform-origin: center bottom;
       transform: translateY(-10px);
-      /* 已经去掉上下弹跳的 keyframes，只保留微动也可以删除这一行 */
       animation: cakeAnimation 2s ease-out infinite alternate;
+      will-change: transform;
     }
 
     .cake-body::before {
@@ -197,6 +197,7 @@
         0 0 28px rgba(255, 227, 168, 0.9);
       animation: flameFlicker 1.8s ease-in-out infinite;
       transform-origin: bottom center;
+      will-change: transform, opacity;
     }
 
     @keyframes flameFlicker {
@@ -495,44 +496,6 @@
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
-    /* 全屏烟花效果 */
-    .firework {
-      position: fixed;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 50;
-      background: transparent;
-      box-shadow:
-        0 0 0 0 rgba(255, 255, 255, 1),
-        20px 0 0 0 rgba(255, 180, 120, 1),
-        -20px 0 0 0 rgba(180, 220, 255, 1),
-        0 20px 0 0 rgba(255, 255, 180, 1),
-        0 -20px 0 0 rgba(255, 200, 200, 1),
-        14px 14px 0 0 rgba(255, 220, 170, 1),
-        -14px 14px 0 0 rgba(200, 220, 255, 1),
-        14px -14px 0 0 rgba(255, 230, 220, 1),
-        -14px -14px 0 0 rgba(255, 255, 220, 1);
-      animation: fireworksBurst 1.2s ease-out forwards;
-    }
-
-    @keyframes fireworksBurst {
-      0% {
-        transform: scale(0);
-        opacity: 1;
-      }
-      60% {
-        transform: scale(1.4);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(1.8);
-        opacity: 0;
-      }
-    }
-
-
     .magic-dialog.show {
       display: block;
       opacity: 1;
@@ -585,8 +548,58 @@
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-        /* —— 星光背景 —— */
-        .starfield {
+
+    /* 小星屑动画（从 JS 里挪到 CSS，更省资源） */
+    @keyframes sparkleFloat {
+      0% { transform: translate3d(0, 0, 0) scale(0.3); opacity: 0; }
+      40% { opacity: 1; }
+      100% { transform: translate3d(0, -40px, 0) scale(1); opacity: 0; }
+    }
+
+    .sparkle {
+      will-change: transform, opacity;
+    }
+
+    /* 全屏烟花效果 */
+    .firework {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 50;
+      background: transparent;
+      box-shadow:
+        0 0 0 0 rgba(255, 255, 255, 1),
+        20px 0 0 0 rgba(255, 180, 120, 1),
+        -20px 0 0 0 rgba(180, 220, 255, 1),
+        0 20px 0 0 rgba(255, 255, 180, 1),
+        0 -20px 0 0 rgba(255, 200, 200, 1),
+        14px 14px 0 0 rgba(255, 220, 170, 1),
+        -14px 14px 0 0 rgba(200, 220, 255, 1),
+        14px -14px 0 0 rgba(255, 230, 220, 1),
+        -14px -14px 0 0 rgba(255, 255, 220, 1);
+      animation: fireworksBurst 1.2s ease-out forwards;
+      will-change: transform, opacity;
+    }
+
+    @keyframes fireworksBurst {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+      60% {
+        transform: scale(1.4);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.8);
+        opacity: 0;
+      }
+    }
+
+    /* —— 星光背景 —— */
+    .starfield {
       position: absolute;
       inset: 0;
       overflow: hidden;
@@ -605,6 +618,7 @@
       animation-name: twinkle;
       animation-iteration-count: infinite;
       animation-timing-function: ease-in-out;
+      will-change: transform, opacity;
     }
 
     @keyframes twinkle {
@@ -621,15 +635,13 @@
         transform: scale(0.6);
       }
     }
-
-
-
   </style>
 </head>
 <body>
   <div class="scene">
     <!-- ★ 星光背景层 -->
     <div class="starfield" id="starfield"></div>
+
     <div class="container">
       <div class="title-block">
         <div class="title-main">DEAR DEER · BIRTHDAY</div>
@@ -766,7 +778,7 @@
       }
     });
 
-    // 小星屑特效（沿用你原来的）
+    // 小星屑特效
     function createSparkles() {
       for (let i = 0; i < 18; i++) {
         const spark = document.createElement("div");
@@ -823,22 +835,12 @@
       }
     }
 
-
-    // 补充小星屑动画 keyframes（如果你原 CSS 里已经有，可以删除这里）
-    const styleSpark = document.createElement("style");
-    styleSpark.innerHTML = `
-      @keyframes sparkleFloat {
-        0% { transform: translate3d(0, 0, 0) scale(0.3); opacity: 0; }
-        40% { opacity: 1; }
-        100% { transform: translate3d(0, -40px, 0) scale(1); opacity: 0; }
-      }
-    `;
-        // —— 背景星空：随机生成很多小星星 —— //
-        function createStarfield() {
+    // —— 背景星空：随机生成很多小星星 —— //
+    function createStarfield() {
       const starfield = document.getElementById("starfield");
       if (!starfield) return;
 
-      const starCount = 160; // 星星数量，可自行调大/调小
+      const starCount = 100; // ⭐ 数量适中，既有满天星又不至于太卡
 
       for (let i = 0; i < starCount; i++) {
         const star = document.createElement("div");
@@ -865,8 +867,6 @@
 
     // 页面加载完成后创建星空
     document.addEventListener("DOMContentLoaded", createStarfield);
-
-    document.head.appendChild(styleSpark);
   </script>
 </body>
 </html>
