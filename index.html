@@ -410,15 +410,17 @@
       filter: drop-shadow(0 0 18px rgba(249, 218, 149, 0.9));
     }
 
-    .envelope-glow {
-      position: absolute;
-      inset: -18px;
-      border-radius: 24px;
-      background: radial-gradient(circle at 50% 0%, rgba(255, 243, 195, 0.25), transparent 60%);
-      opacity: 0.9;
-      mix-blend-mode: screen;
-      pointer-events: none;
+    .envelope-area {
+      position: relative;           /* 新增：作为 envelope-glow 的定位参考 */
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      text-align: center;
+      animation: fadeIn 2s ease-out;
     }
+
+
 
     .envelope-card {
       position: relative;
@@ -846,9 +848,10 @@
         <!-- 下：信封 -->
         <div class="stage-right">
           <div class="envelope-area">
+            <div class="envelope-glow"></div>
             <div class="envelope-hint">这是送给你的专属生日会，请轻轻点开那只信封——</div>
             <button class="envelope-button" id="envelopeButton" aria-label="打开来自未来的信">
-              <div class="envelope-glow"></div>
+              
               <div class="envelope-card">
                 <div class="envelope-back"></div>
                 <div class="envelope-front"></div>
