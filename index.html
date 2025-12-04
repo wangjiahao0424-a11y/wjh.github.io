@@ -44,7 +44,7 @@
     }
 
     .container {
-      max-width: 1120px;
+      max-width: 660px;
       width: 100%;
       position: relative;
       z-index: 1;
@@ -146,6 +146,155 @@
         radial-gradient(circle at 50% 90%, #fffaf4 0, transparent 55%),
         radial-gradient(circle at 90% 90%, #fffaf4 0, transparent 55%);
     }
+
+    /* 蛋糕上的简洁鹿头图案 */
+    .cake-deer-icon {
+      position: absolute;
+      bottom: 32px;              /* 控制鹿头在蛋糕上的高度，可以按喜好微调 */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 54px;
+      pointer-events: none;
+    }
+
+    /* 脸的主形状：略微偏扁的圆角矩形 */
+    .deer-face {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 70px;
+      height: 50px;
+      border-radius: 26px;
+      background: radial-gradient(circle at 30% 20%, #ffe8c9 0, #f3c38a 40%, #e29d5e 100%);
+      box-shadow: 0 0 8px rgba(189, 120, 63, 0.55);
+    }
+
+    /* 耳朵：简单的小椭圆 */
+    .deer-ear-simple {
+      position: absolute;
+      width: 18px;
+      height: 22px;
+      border-radius: 60% 60% 40% 40%;
+      background: linear-gradient(135deg, #fce3c5, #e3ad74);
+    }
+
+    .deer-ear-simple--left {
+      top: -10px;
+      left: 4px;
+      transform: rotate(-10deg);
+    }
+
+    .deer-ear-simple--right {
+      top: -10px;
+      right: 4px;
+      transform: rotate(10deg);
+    }
+
+    /* 鹿角：非常简化的两个小叉形轮廓 */
+    .deer-antler {
+      position: absolute;
+      width: 3px;
+      height: 16px;
+      background: #c28546;
+      border-radius: 999px;
+    }
+
+    .deer-antler::before,
+    .deer-antler::after {
+      content: "";
+      position: absolute;
+      width: 3px;
+      height: 8px;
+      background: #c28546;
+      border-radius: 999px;
+    }
+
+    .deer-antler--left {
+      top: -18px;
+      left: 18px;
+    }
+
+    .deer-antler--left::before {
+      top: 3px;
+      left: -5px;
+      transform: rotate(-25deg);
+    }
+
+    .deer-antler--left::after {
+      top: 6px;
+      left: 4px;
+      transform: rotate(20deg);
+    }
+
+    .deer-antler--right {
+      top: -18px;
+      right: 18px;
+    }
+
+    .deer-antler--right::before {
+      top: 3px;
+      right: -5px;
+      transform: rotate(25deg);
+    }
+
+    .deer-antler--right::after {
+      top: 6px;
+      right: 4px;
+      transform: rotate(-20deg);
+    }
+
+    /* 眼睛：小圆点 */
+    .deer-eye-simple {
+      position: absolute;
+      top: 20px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4a2f25;
+      box-shadow: 0 0 4px rgba(74, 47, 37, 0.6);
+    }
+
+    .deer-eye-simple--left {
+      left: 20px;
+    }
+
+    .deer-eye-simple--right {
+      right: 20px;
+    }
+
+    /* 鼻子：小椭圆 */
+    .deer-nose-simple {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 9px;
+      border-radius: 999px;
+      background: #4f3030;
+    }
+
+    /* 淡淡腮红 */
+    .deer-cheek-simple {
+      position: absolute;
+      top: 26px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffe7ee 0, #f7a9bb 55%, rgba(255, 255, 255, 0) 100%);
+      opacity: 0.9;
+    }
+
+    .deer-cheek-simple--left {
+      left: 11px;
+    }
+
+    .deer-cheek-simple--right {
+      right: 11px;
+    }
+
+
 
     .cake-decoration-dots {
       position: absolute;
@@ -360,13 +509,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(16px);
-      background: radial-gradient(circle at top, rgba(25, 34, 74, 0.92), rgba(4, 7, 20, 0.96));
+      backdrop-filter: blur(0px); /* 可以顺便稍微减一点 blur，让星星更清晰 */
+      background: transparent;  /* 或者直接不写 background 这一行 */
       z-index: 20;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.35s ease;
     }
+
 
     .letter-modal.show {
       opacity: 1;
@@ -665,6 +815,21 @@
             <div class="cake-base">
               <div class="cake-plate"></div>
               <div class="cake-body">
+                <!-- 简洁鹿头图案 -->
+                <div class="cake-deer-icon">
+                  <div class="deer-face">
+                    <div class="deer-ear-simple deer-ear-simple--left"></div>
+                    <div class="deer-ear-simple deer-ear-simple--right"></div>
+                    <div class="deer-antler deer-antler--left"></div>
+                    <div class="deer-antler deer-antler--right"></div>
+                    <div class="deer-eye-simple deer-eye-simple--left"></div>
+                    <div class="deer-eye-simple deer-eye-simple--right"></div>
+                    <div class="deer-nose-simple"></div>
+                    <div class="deer-cheek-simple deer-cheek-simple--left"></div>
+                    <div class="deer-cheek-simple deer-cheek-simple--right"></div>
+                  </div>
+                </div>
+              
                 <div class="cake-candle">
                   <div class="candle-flame"></div>
                 </div>
@@ -672,6 +837,7 @@
                   <span></span><span></span><span></span><span></span><span></span>
                 </div>
               </div>
+              
             </div>
             <div class="cake-caption">Happy Birthday · 十二月七</div>
           </div>
@@ -702,7 +868,6 @@
     <div class="letter-modal" id="letterModal">
       <div class="letter-card">
         <div class="letter-frame"></div>
-        <button class="close-btn" id="closeLetter" aria-label="关闭信件">×</button>
         <div class="letter-inner">
           <p class="letter-heading no-indent">Dear Deer：</p>
           <p class="no-indent">见信如晤</p>
@@ -736,9 +901,15 @@
               有疑惑？请点击此处
             </button>
           </div>
+
+          <!-- ⭐ 小提示：点击空白处关闭 -->
+          <p class="no-indent" style="margin-top: 8px; font-size: 12px; color: #b08b5d; text-align: center;">
+            点击空白处关闭
+          </p>
         </div>
       </div>
     </div>
+
 
     <!-- 魔法对话框 -->
     <div class="magic-dialog" id="magicDialog">
@@ -751,142 +922,194 @@
   </div>
 
   <script>
-    const envelopeButton = document.getElementById("envelopeButton");
-    const letterModal = document.getElementById("letterModal");
-    const closeLetter = document.getElementById("closeLetter");
-    const magicButton = document.getElementById("magicButton");
-    const magicDialog = document.getElementById("magicDialog");
-    const closeDialog = document.getElementById("closeDialog");
-
-    function openLetter() {
-      letterModal.classList.add("show");
-      createSparkles();
-    }
-
-    function closeLetterModal() {
-      letterModal.classList.remove("show");
-    }
-
-    function openMagicDialog() {
-      magicDialog.classList.add("show");
-      createSparkles();
-      launchFireworks(); // 同时放烟花 ✨
-    }
-
-    function closeMagicDialog() {
-      magicDialog.classList.remove("show");
-    }
-
-    envelopeButton.addEventListener("click", openLetter);
-    closeLetter.addEventListener("click", closeLetterModal);
-    magicButton.addEventListener("click", openMagicDialog);
-    closeDialog.addEventListener("click", closeMagicDialog);
-
-    letterModal.addEventListener("click", (e) => {
-      if (e.target === letterModal) {
-        closeLetterModal();
-      }
-    });
-
-    // 小星屑特效
-    function createSparkles() {
-      for (let i = 0; i < 18; i++) {
-        const spark = document.createElement("div");
-        spark.className = "sparkle";
-        const angle = Math.random() * Math.PI * 2;
-        const radius = 80 + Math.random() * 80;
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        const x = centerX + Math.cos(angle) * radius;
-        const y = centerY + Math.sin(angle) * radius;
-
-        spark.style.position = "fixed";
-        spark.style.width = "6px";
-        spark.style.height = "6px";
-        spark.style.borderRadius = "50%";
-        spark.style.background = "radial-gradient(circle at 30% 30%, #fff 0, #ffe7b7 50%, rgba(255,255,255,0) 100%)";
-        spark.style.pointerEvents = "none";
-        spark.style.opacity = "0";
-        spark.style.zIndex = "40";
-        spark.style.left = x + "px";
-        spark.style.top = (y + 30) + "px";
-        spark.style.animation = "sparkleFloat 1.1s ease-out forwards";
-
-        document.body.appendChild(spark);
-
-        spark.addEventListener("animationend", () => {
-          spark.remove();
-        });
-      }
-    }
-
-    // 全屏烟花效果
-    function launchFireworks() {
-      const count = 14; // 一次放多少组烟花
-      for (let i = 0; i < count; i++) {
-        const fire = document.createElement("div");
-        fire.className = "firework";
-
-        // 随机位置（尽量集中在中上区域，看起来更好看）
-        const x = Math.random() * 100;      // 0 - 100 vw
-        const y = 10 + Math.random() * 60;  // 10 - 70 vh
-
-        fire.style.left = x + "vw";
-        fire.style.top = y + "vh";
-
-        // 随机延迟，让烟花不是同时炸开
-        fire.style.animationDelay = (Math.random() * 0.5) + "s";
-
-        document.body.appendChild(fire);
-
-        fire.addEventListener("animationend", () => {
-          fire.remove();
-        });
-      }
-    }
-
-        // —— 背景星空：随机生成很多小星星 —— //
-    function createStarfield() {
-      const starfield = document.getElementById("starfield");
-      if (!starfield) return;
-
-      const starCount = 160;      // 画出这么多星星（视觉数量不变）
-      // 只有一部分星星做闪烁动画，减轻 GPU/CPU 压力
+    document.addEventListener("DOMContentLoaded", function () {
+      const envelopeButton = document.getElementById("envelopeButton");
+      const letterModal = document.getElementById("letterModal");
+      const closeLetter = document.getElementById("closeLetter");
+      const magicButton = document.getElementById("magicButton");
+      const magicDialog = document.getElementById("magicDialog");
+      const closeDialog = document.getElementById("closeDialog");
+      const starfieldEl = document.getElementById("starfield");
+  
+      // 粗略判断是否是手机 / 平板，用来做性能优化
       const isLowPowerDevice = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      const twinkleCount = isLowPowerDevice ? 32 : 48; // 手机少一点动画，桌面稍微多一点
-
-      for (let i = 0; i < starCount; i++) {
-        const star = document.createElement("div");
-        star.className = "star";
-
-        // 随机大小（1~3px之间）
-        const size = 1 + Math.random() * 2;
-        star.style.width = size + "px";
-        star.style.height = size + "px";
-
-        // 随机位置（0~100%）
-        star.style.left = Math.random() * 100 + "%";
-        star.style.top = Math.random() * 100 + "%";
-
-        if (i < twinkleCount) {
-          // 这一部分星星会一闪一闪
-          star.classList.add("star--twinkle");
-          const duration = 3 + Math.random() * 4;   // 3~7s 闪烁周期
-          const delay = Math.random() * 6;          // 0~6s 延迟
-          star.style.animationDuration = duration + "s";
-          star.style.animationDelay = delay + "s";
-        } else {
-          // 其余的是静态星星，只设置一个随机亮度
-          star.style.opacity = 0.15 + Math.random() * 0.35;
-        }
-
-        starfield.appendChild(star);
+  
+      // 控制星空暂停/恢复
+      function pauseStars() {
+        document.body.classList.add("stars-paused");
       }
-    }
-
-
-    // 页面加载完成后创建星空
-    document.addEventListener("DOMContentLoaded", createStarfield);
-  </script>
+  
+      function resumeStars() {
+        document.body.classList.remove("stars-paused");
+      }
+  
+      // 打开/关闭信件弹窗
+      function openLetter() {
+        letterModal.classList.add("show");
+        createSparkles();
+      }
+  
+      function closeLetterModal() {
+        letterModal.classList.remove("show");
+      }
+  
+      // 打开/关闭魔法对话框
+      function openMagicDialog() {
+        magicDialog.classList.add("show");
+        createSparkles();
+        launchFireworks(); // 同时放烟花 ✨
+      }
+  
+      function closeMagicDialog() {
+        magicDialog.classList.remove("show");
+      }
+  
+      // 事件绑定
+      if (envelopeButton) {
+        envelopeButton.addEventListener("click", openLetter);
+      }
+  
+      if (closeLetter) {
+        closeLetter.addEventListener("click", (e) => {
+          e.stopPropagation(); // 防止触发背景点击
+          closeLetterModal();
+        });
+      }
+  
+      if (magicButton) {
+        magicButton.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openMagicDialog();
+        });
+      }
+  
+      if (closeDialog) {
+        closeDialog.addEventListener("click", (e) => {
+          e.stopPropagation();
+          closeMagicDialog();
+        });
+      }
+  
+      // 点击遮罩空白处关闭信件
+      if (letterModal) {
+        letterModal.addEventListener("click", (e) => {
+          if (e.target === letterModal) {
+            closeLetterModal();
+          }
+        });
+      }
+  
+      // 小星屑特效
+      function createSparkles() {
+        const count = isLowPowerDevice ? 10 : 18;
+        for (let i = 0; i < count; i++) {
+          const spark = document.createElement("div");
+          spark.className = "sparkle";
+          const angle = Math.random() * Math.PI * 2;
+          const radius = 80 + Math.random() * 80;
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          const x = centerX + Math.cos(angle) * radius;
+          const y = centerY + Math.sin(angle) * radius;
+  
+          spark.style.position = "fixed";
+          spark.style.width = "6px";
+          spark.style.height = "6px";
+          spark.style.borderRadius = "50%";
+          spark.style.background =
+            "radial-gradient(circle at 30% 30%, #fff 0, #ffe7b7 50%, rgba(255,255,255,0) 100%)";
+          spark.style.pointerEvents = "none";
+          spark.style.opacity = "0";
+          spark.style.zIndex = "40";
+          spark.style.left = x + "px";
+          spark.style.top = y + 30 + "px";
+          spark.style.animation = "sparkleFloat 1.1s ease-out forwards";
+  
+          document.body.appendChild(spark);
+  
+          spark.addEventListener("animationend", () => {
+            spark.remove();
+          });
+        }
+      }
+  
+      // 烟花效果
+      function launchFireworks() {
+        const count = isLowPowerDevice ? 5 : 12; // 手机只放少量烟花
+  
+        for (let i = 0; i < count; i++) {
+          const fire = document.createElement("div");
+          fire.className = "firework";
+  
+          // 随机位置（中上区域）
+          const x = Math.random() * 100; // 0 - 100 vw
+          const y = 15 + Math.random() * 50; // 15 - 65 vh
+  
+          fire.style.left = x + "vw";
+          fire.style.top = y + "vh";
+  
+          // 随机延迟，让烟花错开时间
+          fire.style.animationDelay = Math.random() * 0.4 + "s";
+  
+          document.body.appendChild(fire);
+  
+          fire.addEventListener("animationend", () => {
+            fire.remove();
+          });
+        }
+      }
+  
+      // 补充小星屑动画 keyframes（保证存在即可）
+      const styleSpark = document.createElement("style");
+      styleSpark.innerHTML = `
+        @keyframes sparkleFloat {
+          0% { transform: translate3d(0, 0, 0) scale(0.3); opacity: 0; }
+          40% { opacity: 1; }
+          100% { transform: translate3d(0, -40px, 0) scale(1); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(styleSpark);
+  
+      // —— 背景星空：满屏星星 + 部分闪烁 —— //
+      function createStarfield() {
+        const starfield = starfieldEl;
+        if (!starfield) return;
+  
+        const starCount = 160; // 星星总数不变
+        const twinkleCount = isLowPowerDevice ? 32 : 48; // 只有部分星星闪烁
+  
+        for (let i = 0; i < starCount; i++) {
+          const star = document.createElement("div");
+          star.className = "star";
+  
+          // 随机大小（1~3px之间）
+          const size = 1 + Math.random() * 2;
+          star.style.width = size + "px";
+          star.style.height = size + "px";
+  
+          // 随机位置（0~100%）
+          star.style.left = Math.random() * 100 + "%";
+          star.style.top = Math.random() * 100 + "%";
+  
+          if (i < twinkleCount) {
+            // 这一部分星星一闪一闪
+            star.classList.add("star--twinkle");
+            const duration = 3 + Math.random() * 4; // 3~7s 闪烁周期
+            const delay = Math.random() * 6; // 0~6s 延迟
+            star.style.animationDuration = duration + "s";
+            star.style.animationDelay = delay + "s";
+          } else {
+            // 这些是静态星星，随机亮度当背景
+            star.style.opacity = 0.15 + Math.random() * 0.35;
+          }
+  
+          starfield.appendChild(star);
+        }
+      }
+  
+      // 现在 DOM 已经 ready，直接创建星空
+      createStarfield();
+    });
+  </script>    
 </body>
 </html>
