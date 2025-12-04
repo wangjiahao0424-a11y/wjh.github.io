@@ -598,7 +598,7 @@
       }
     }
 
-    /* —— 星光背景 —— */
+        /* —— 星光背景 —— */
     .starfield {
       position: absolute;
       inset: 0;
@@ -607,34 +607,44 @@
       z-index: 0;
     }
 
+    /* 所有星星：静态的小光点 */
     .star {
       position: absolute;
       width: 2px;
       height: 2px;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #ffffff 0, rgba(255,255,255,0.7) 40%, rgba(255,255,255,0) 100%);
-      opacity: 0;
-      filter: drop-shadow(0 0 4px rgba(255,255,255,0.9));
+      background: radial-gradient(
+        circle at 30% 30%,
+        #ffffff 0,
+        rgba(255, 255, 255, 0.7) 40%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      opacity: 0.35; /* 默认微亮 */
+    }
+
+    /* 只给一部分星星加 twinkle 动画，减轻压力 */
+    .star--twinkle {
       animation-name: twinkle;
       animation-iteration-count: infinite;
       animation-timing-function: ease-in-out;
-      will-change: transform, opacity;
+      will-change: opacity, transform;
     }
 
     @keyframes twinkle {
       0% {
-        opacity: 0;
-        transform: scale(0.6);
+        opacity: 0.1;
+        transform: scale(0.8);
       }
       40% {
         opacity: 1;
         transform: scale(1);
       }
       100% {
-        opacity: 0;
-        transform: scale(0.6);
+        opacity: 0.1;
+        transform: scale(0.8);
       }
     }
+
   </style>
 </head>
 <body>
@@ -812,7 +822,7 @@
 
     // 全屏烟花效果
     function launchFireworks() {
-      const count = 15; // 一次放多少组烟花
+      const count = 14; // 一次放多少组烟花
       for (let i = 0; i < count; i++) {
         const fire = document.createElement("div");
         fire.className = "firework";
@@ -835,12 +845,15 @@
       }
     }
 
-    // —— 背景星空：随机生成很多小星星 —— //
+        // —— 背景星空：随机生成很多小星星 —— //
     function createStarfield() {
       const starfield = document.getElementById("starfield");
       if (!starfield) return;
 
-      const starCount = 100; // ⭐ 数量适中，既有满天星又不至于太卡
+      const starCount = 160;      // 画出这么多星星（视觉数量不变）
+      // 只有一部分星星做闪烁动画，减轻 GPU/CPU 压力
+      const isLowPowerDevice = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const twinkleCount = isLowPowerDevice ? 32 : 48; // 手机少一点动画，桌面稍微多一点
 
       for (let i = 0; i < starCount; i++) {
         const star = document.createElement("div");
@@ -855,20 +868,25 @@
         star.style.left = Math.random() * 100 + "%";
         star.style.top = Math.random() * 100 + "%";
 
-        // 随机闪烁节奏
-        const duration = 3 + Math.random() * 4;   // 3~7s 闪烁周期
-        const delay = Math.random() * 6;          // 0~6s 延迟
-        star.style.animationDuration = duration + "s";
-        star.style.animationDelay = delay + "s";
+        if (i < twinkleCount) {
+          // 这一部分星星会一闪一闪
+          star.classList.add("star--twinkle");
+          const duration = 3 + Math.random() * 4;   // 3~7s 闪烁周期
+          const delay = Math.random() * 6;          // 0~6s 延迟
+          star.style.animationDuration = duration + "s";
+          star.style.animationDelay = delay + "s";
+        } else {
+          // 其余的是静态星星，只设置一个随机亮度
+          star.style.opacity = 0.15 + Math.random() * 0.35;
+        }
 
         starfield.appendChild(star);
       }
     }
+
 
     // 页面加载完成后创建星空
     document.addEventListener("DOMContentLoaded", createStarfield);
   </script>
 </body>
 </html>
-
-
